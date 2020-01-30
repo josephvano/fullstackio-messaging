@@ -1,12 +1,35 @@
 import React                    from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Status                   from "./components/Status";
+import {messageFactory}         from "./utils/MessageUtils";
+import MessageList              from "./components/MessageList";
 
 export default class App extends React.Component {
+  state = {
+    messages: [
+      messageFactory('text', 'Hello world!'),
+      messageFactory('image', 'https://unsplash.it/300/300'),
+      messageFactory('text', 'SOme random image there bruh!'),
+      messageFactory('location', {
+        latitude: 37.78825,
+        longitude: -122.4324
+      })
+    ]
+  };
+
+  handlePressMessage = ({id, type}) => {
+    console.log(`Handling message press: ${item}`)
+  };
+
   renderMessageList() {
+    const { messages } = this.state;
+
     return (
       <View style={styles.content}>
-        <Text>Content</Text>
+        <MessageList
+          messages={messages}
+          onPressMessage={this.handlePressMessage}
+        />
       </View>
     );
   }
