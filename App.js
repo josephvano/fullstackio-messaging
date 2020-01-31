@@ -18,7 +18,7 @@ export default class App extends React.Component {
   };
 
   handlePressMessage = ({id, type}) => {
-    console.log(`Handling message press: ${item}`)
+    console.log(`Handling message press: ${id}:${type}`);
   };
 
   renderMessageList() {
