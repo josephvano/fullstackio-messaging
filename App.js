@@ -1,8 +1,14 @@
-import React                    from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Status                   from "./components/Status";
-import {messageFactory}         from "./utils/MessageUtils";
-import MessageList              from "./components/MessageList";
+import React from 'react';
+import {
+  Alert,
+  StyleSheet,
+  Text, View
+}
+             from 'react-native';
+
+import Status           from "./components/Status";
+import {messageFactory} from "./utils/MessageUtils";
+import MessageList      from "./components/MessageList";
 
 export default class App extends React.Component {
   state = {
@@ -11,18 +17,38 @@ export default class App extends React.Component {
       messageFactory('image', 'https://unsplash.it/300/300'),
       messageFactory('text', 'SOme random image there bruh!'),
       messageFactory('location', {
-        latitude: 37.78825,
+        latitude : 37.78825,
         longitude: -122.4324
       })
     ]
   };
 
   handlePressMessage = ({id, type}) => {
-    console.log(`Handling message press: ${id}:${type}`);
+    switch (type) {
+      case 'text':
+        Alert.alert('Delete message?', 'Are you sure you want to permanently delete this message',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel'
+            },
+            {
+              text: 'Delete',
+              style: 'destructive',
+              onPress: () => {
+                const { messages } = this.state;
+                this.setState({
+                  messages: messages.filter( message => message.id !== id)
+                })
+              }
+            }
+          ]
+          )
+    }
   };
 
   renderMessageList() {
-    const { messages } = this.state;
+    const {messages} = this.state;
 
     return (
       <View style={styles.content}>
