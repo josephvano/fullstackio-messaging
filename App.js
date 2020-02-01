@@ -35,6 +35,19 @@ export default class App extends React.Component {
   };
 
   handlePressToolbarLocation = () => {
+    const {messages} = this.state;
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      const {coords: {latitude, longitude}} = position;
+
+      this.setState({
+        messages: [
+          messageFactory('location', {latitude, longitude }),
+          ...messages
+        ]
+      })
+    });
+
   };
 
   handleChangeFocus = (isInputFocused) => {
